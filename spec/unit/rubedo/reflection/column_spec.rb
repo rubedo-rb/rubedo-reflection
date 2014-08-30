@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Rubedo::Reflection::Column do
   let(:instance) { described_class.new(name, properties) }
 
-  let(:name) { :email }
+  let(:name) { 'email' }
 
   let(:properties) do
     {}
@@ -13,16 +13,16 @@ describe Rubedo::Reflection::Column do
     subject { instance.name }
 
     context 'when string' do
-      let(:name) { 'email' }
-
-      it 'symbolize name' do
-        expect(subject).to equal(:email)
+      it 'stores it' do
+        expect(subject).to equal(name)
       end
     end
 
     context 'when symbol' do
-      it 'stores it' do
-        expect(subject).to equal(name)
+      let(:name) { 'address' }
+
+      it 'stringify it' do
+        expect(subject).to eql('address')
       end
     end
   end

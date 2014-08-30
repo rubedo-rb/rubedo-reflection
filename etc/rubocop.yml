@@ -1,0 +1,37 @@
+---
+AllCops:
+  Include:
+    - 'Gemfile'
+    - 'lib'
+    - 'spec'
+
+AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+AndOr:
+  Enabled: false
+
+EmptyLinesAroundBody:
+  Enabled: false
+
+EndAlignment:
+  AlignWith: variable
+
+LineLength:
+  Max: 99
+
+SpaceAroundEqualsInParameterDefault:
+  Enabled: false
+
+TrivialAccessors:
+  ExactNameMatch: true
+  AllowPredicates: true
+
+SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+Style/CaseIndentation:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 120

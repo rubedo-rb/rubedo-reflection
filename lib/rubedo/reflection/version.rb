@@ -1,5 +1,9 @@
 module Rubedo
   module Reflection
+
+    ##
+    # Namespace: gem version
+    #
     module VERSION
       MAJOR = 0.freeze
       MINOR = 1.freeze

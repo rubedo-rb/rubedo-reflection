@@ -9,7 +9,7 @@ module Rubedo
       ##
       # Column name
       #
-      # Returns: {Symbol}
+      # Returns: {String}
       #
       attr_reader :name
 
@@ -47,7 +47,7 @@ module Rubedo
       #   - default                   default value for column
       #
       def initialize(name, props={})
-        @name = name.to_sym
+        @name = name.to_s.freeze
 
         @type       = props[:type]
         @allow_null = props[:allow_null]
