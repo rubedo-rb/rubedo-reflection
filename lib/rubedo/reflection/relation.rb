@@ -28,11 +28,16 @@ module Rubedo
       ##
       # List of table columns
       #
-      # Returns: {Array(Schema::Column)}
+      # Returns: {Hash(Schema::Column)}
       #
-      def columns
-        fail(NotImplementedError)
-      end
+      attr_reader :columns
+
+      ##
+      # List of table columns names
+      #
+      # Returns: {Array}
+      #
+      attr_reader :column_names
 
       ##
       # List of table indexes
@@ -47,6 +52,11 @@ module Rubedo
 
       def initialize(name, props={})
         @name = name.to_s.freeze
+
+        @schema  = props[:schema] ? props[:schema].to_s.freeze : nil
+        @owner   = props[:owner]
+        @columns = (props[:columns] || {}).freeze
+        @column_names = @columns.keys.freeze
       end
 
     end

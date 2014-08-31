@@ -31,10 +31,10 @@ describe Rubedo::Reflection::Relation do
     subject { instance.owner }
 
     context 'when defined' do
-      let(:expected) { mock }
+      let(:expected) { double }
 
       let(:properties) do
-        { type: expected }
+        { owner: expected }
       end
 
       it { expect(subject).to equal(expected) }
@@ -50,22 +50,22 @@ describe Rubedo::Reflection::Relation do
 
     context 'when defined' do
       context 'when string' do
-        let(:properies) do
-          { schema: 'schema2' }
+        let(:properties) do
+          { schema: 'mynamespace' }
         end
 
-        it 'symbolize name' do
-          expect(subject).to equal(:mynamespace)
+        it 'stores it' do
+          expect(subject).to eql('mynamespace')
         end
       end
 
       context 'when symbol' do
         let(:properties) do
-          { schema: :foo }
+          { schema: :schema2 }
         end
 
-        it 'stores it' do
-          expect(subject).to equal(:foo)
+        it 'stringify it' do
+          expect(subject).to eql('schema2')
         end
       end
     end
@@ -78,9 +78,70 @@ describe Rubedo::Reflection::Relation do
   describe '#columns' do
     subject { instance.columns }
 
+    context 'when defined' do
+      let(:attr_name)  { instance_double('Rubedo::Reflection::Attribute', name: 'name') }
+      let(:attr_email) { instance_double('Rubedo::Reflection::Attribute', name: 'email') }
+
+      let(:properties) do
+        {
+          columns: {
+            name:  attr_name,
+            email: attr_email
+          }
+        }
+      end
+
+      it 'should store it' do
+        expect(subject[:name].name).to  eql('name')
+        expect(subject[:email].name).to eql('email')
+      end
+
+      it 'should not allow to change it' do
+        expect { subject[:foo] = :bar }.to raise_error(RuntimeError, "can't modify frozen Hash")
+      end
+    end
+
+    context 'when not defined' do
+      it { expect(subject).to eql({}) }
+    end
+  end
+
+  describe '#column_names' do
+    subject { instance.column_names }
+
+    context 'when columns defined' do
+      let(:properties) do
+        {
+          columns: {
+            name:  instance_double('Rubedo::Reflection::Attribute'),
+            email: instance_double('Rubedo::Reflection::Attribute')
+          }
+        }
+      end
+
+      it 'returns columns list' do
+        expect(subject).to eql %i(name email)
+      end
+
+      it 'should not allow to change it' do
+        expect { subject << :bar }.to raise_error(RuntimeError, "can't modify frozen Array")
+      end
+    end
+
+    context 'when columns not defined' do
+      it { expect(subject).to eql([]) }
+    end
   end
 
   describe '#indexes' do
     subject { instance.indexes }
+
+    context 'when defined' do
+      pending
+    end
+
+    context 'when not defined' do
+      pending
+    end
   end
 end
